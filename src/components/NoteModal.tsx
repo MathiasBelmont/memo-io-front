@@ -7,22 +7,20 @@ interface NoteProps {
   color: string;
 }
 
-export default function NoteCard({ id, title, note, image, alt, color }: NoteProps) {
+export default function NoteModal({ id, title, note, image, alt, color }: NoteProps) {
   return (
-    <dialog id={`note-modal-${id}`} className="modal">
-      <div className={`modal-box relative size-[800px] overflow-hidden border-4 border-${color}-500`}>
-        <img src={image} alt={alt} className="absolute inset-0 w-full h-40 object-cover opacity-100" />
-        <div className="pt-36">
-          <h1 className="card-title text-xl">{title}</h1>
-          <p className="py-4">{note}</p>
+    <>
+      <input type="checkbox" id={`note-modal-${id}`} className="modal-toggle" />
+      <div className="modal" role="dialog">
+        <div className="modal-box bg-yellow-100 relative size-[800px] overflow-hidden">
+          <img src={image} alt={alt} className="absolute inset-0 w-full h-40 object-cover opacity-100" />
+          <div className="pt-36 text-gray-800">
+            <h1 className="card-title text-xl">{title}</h1>
+            <p className="py-4">{note}</p>
+          </div>
         </div>
+        <label className="modal-backdrop" htmlFor={`note-modal-${id}`}/>
       </div>
-      <form method="dialog" className="modal-backdrop">
-        <button>
-          Fechar
-        </button>
-      </form>
-    </dialog>
+    </>
   );
 }
-
