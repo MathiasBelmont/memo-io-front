@@ -80,9 +80,10 @@ function App() {
           </button>
         </div>
       </div>
-      <div className="flex justify-items-start min-h-screen gap-12 flex-wrap py-24 px-16 bg-base-100">
-        {notes.map(note => (
-          <NoteCard
+      <div className="flex justify-center items-center pt-16">
+        <div className="grid grid-cols-3 gap-10 p-10">
+          {notes.map(note => (
+            <NoteCard
             key={note.id}
             id={note.id}
             title={note.title}
@@ -90,8 +91,9 @@ function App() {
             image={note.image}
             alt={note.alt}
             color={note.color}
-          />
-        ))}
+            />
+          ))}
+        </div>
       </div>
       <button onClick={handleAddNote} className="btn bg-base-200 flex fixed bottom-10 right-10 shadow-md btn-lg rounded-full justify-center items-center">
         <FaPencilAlt />
