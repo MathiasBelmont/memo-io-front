@@ -1,23 +1,30 @@
 import { useEffect, useState } from "react";
 import { FaAt, FaKey, FaMoon, FaSun } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [theme, setTheme] = useState("light");
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email, "Password:", password);
+
+    if (email && password) {
+      console.log("Email:", email, "Password:", password);
+      navigate("/home");
+    } else {
+      alert("Por favor, preencha todos os campos.");
+    }
   };
 
-  const [theme, setTheme] = useState('light');
-
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   useEffect(() => {
-    document.querySelector('html')?.setAttribute('data-theme', theme);
+    document.querySelector("html")?.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
@@ -27,7 +34,7 @@ export default function Login() {
           <div className="text-center">
             <h1 className="text-4xl font-semibold">memo.io</h1>
           </div>
-          <form className="flex flex-col gap-4 items-center">
+          <form className="flex flex-col gap-4 items-center" onSubmit={handleSubmit}>
             <label className="input input-bordered flex items-center gap-2 w-full">
               <FaAt className="text-neutral-content" />
               <input
@@ -59,13 +66,13 @@ export default function Login() {
           </form>
           <div>
             <p className="text-sm text-center">
-              Não possui uma conta? <a className="link link-primary">Registre-se</a>
+              Não possui uma conta? <Link to="/signup" className="text-primary">Registre-se</Link>
             </p>
           </div>
         </div>
       </div>
       <button onClick={toggleTheme} className="btn btn-ghost btn-circle fixed top-4 right-4">
-        {theme === 'light' ? <FaMoon /> : <FaSun />}
+        {theme === "light" ? <FaMoon /> : <FaSun />}
       </button>
     </>
   );
