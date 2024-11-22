@@ -43,10 +43,10 @@ export default function Home() {
     },
   ]);
 
-  const navigate = useNavigate(); // Hook para redirecionar para o login
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    navigate("/"); // Redireciona para a página de login
+    navigate("/");
   };
 
   const handleAddNote = () => {
