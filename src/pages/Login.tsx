@@ -66,7 +66,7 @@ export default function Login() {
           </form>
           <div>
             <p className="text-sm text-center">
-              Não possui uma conta? <Link to="/signup">Registre-se</Link>
+              Não possui uma conta? <Link to="/signup" className="text-primary">Registre-se</Link>
             </p>
           </div>
         </div>
