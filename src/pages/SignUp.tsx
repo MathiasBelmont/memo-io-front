@@ -7,16 +7,13 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [theme, setTheme] = useState("light");
-  const navigate = useNavigate(); // Hook para redirecionamento
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Simulação de validação
     if (username && email && password) {
       console.log("Nome:", username, "Email:", email, "Senha:", password);
-
-      // Redireciona para a página Home após criar a conta
       navigate("/home");
     } else {
       alert("Por favor, preencha todos os campos.");

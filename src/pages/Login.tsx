@@ -6,16 +6,13 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [theme, setTheme] = useState("light");
-  const navigate = useNavigate(); // Hook para redirecionamento
+  const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Simulação de validação
     if (email && password) {
       console.log("Email:", email, "Password:", password);
-
-      // Redireciona para a Home após o login
       navigate("/home");
     } else {
       alert("Por favor, preencha todos os campos.");
