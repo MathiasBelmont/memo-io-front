@@ -78,7 +78,7 @@ export default function SignUp() {
           </form>
           <div>
             <p className="text-sm text-center">
-              Já possui uma conta? <Link to="/login" className="text-primary">Entrar</Link>
+              Já possui uma conta? <Link to="/" className="text-primary">Entrar</Link>
             </p>
           </div>
         </div>
