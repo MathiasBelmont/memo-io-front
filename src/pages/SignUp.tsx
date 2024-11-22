@@ -1,24 +1,34 @@
 import { useEffect, useState } from "react";
 import { FaAt, FaKey, FaMoon, FaSun, FaUser } from "react-icons/fa6";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [theme, setTheme] = useState("light");
+  const navigate = useNavigate(); // Hook para redirecionamento
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Nome:", username, "Email:", email, "Senha:", password);
+
+    // Simulação de validação
+    if (username && email && password) {
+      console.log("Nome:", username, "Email:", email, "Senha:", password);
+
+      // Redireciona para a página Home após criar a conta
+      navigate("/home");
+    } else {
+      alert("Por favor, preencha todos os campos.");
+    }
   };
 
-  const [theme, setTheme] = useState('light');
-
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === "dark" ? "light" : "dark");
   };
 
   useEffect(() => {
-    document.querySelector('html')?.setAttribute('data-theme', theme);
+    document.querySelector("html")?.setAttribute("data-theme", theme);
   }, [theme]);
 
   return (
@@ -28,15 +38,15 @@ export default function SignUp() {
           <div className="text-center">
             <h1 className="text-4xl font-semibold">memo.io</h1>
           </div>
-          <form className="flex flex-col gap-4 items-center">
-          <label className="input input-bordered flex items-center gap-2 w-full">
+          <form className="flex flex-col gap-4 items-center" onSubmit={handleSubmit}>
+            <label className="input input-bordered flex items-center gap-2 w-full">
               <FaUser className="text-neutral-content" />
               <input
                 type="text"
                 className="grow"
                 placeholder="Nome"
                 value={username}
-                onChange={(e) =>{setUsername(e.target.value)}}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </label>
@@ -71,13 +81,13 @@ export default function SignUp() {
           </form>
           <div>
             <p className="text-sm text-center">
-              Já possui uma conta? <a className="link link-primary">Faça login</a>
+              Já possui uma conta? <Link to="/login" className="text-primary">Entrar</Link>
             </p>
           </div>
         </div>
       </div>
       <button onClick={toggleTheme} className="btn btn-ghost btn-circle fixed top-4 right-4">
-        {theme === 'light' ? <FaMoon /> : <FaSun />}
+        {theme === "light" ? <FaMoon /> : <FaSun />}
       </button>
     </>
   );
