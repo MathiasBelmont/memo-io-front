@@ -2,46 +2,27 @@ import { useEffect, useState } from "react";
 import NoteCard from "../components/NoteCard";
 import { FaMoon, FaPencil, FaSun } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
+import NotesAPI from "../utils/NotesAPI";
 
 export default function Home() {
-  const [notes, setNotes] = useState([
-    {
-      id: 1,
-      title: "Ideias para um Projeto de Arte",
-      note: `
-        Explorar a combinação de materiais recicláveis com pintura.
-        Criar uma instalação que represente a poluição dos oceanos.
-        Usar luzes LED para dar vida às obras à noite.
-      `,
-      image: "/img/image1.jpeg",
-      alt: "Tarefas",
-      color: "red",
-    },
-    {
-      id: 2,
-      title: "Dicas de Produtividade",
-      note: `
-        Estabelecer metas diárias e semanais.
-        Utilizar a técnica Pomodoro: 25 minutos de trabalho, 5 minutos de pausa.
-        Desconectar-se das redes sociais durante o horário de trabalho.
-      `,
-      image: "/img/image2.jpeg",
-      alt: "Tarefas",
-      color: "green",
-    },
-    {
-      id: 3,
-      title: "Receitas para Experimentar",
-      note: `
-        Smoothie Verde: Espinafre, banana, abacate e leite de amêndoas.
-        Salada de Quinoa: Quinoa, tomate-cereja, pepino, cebola roxa e molho de limão.
-        Bolo de Cenoura: Cenoura ralada, farinha integral, mel e especiarias.
-      `,
-      image: "/img/image3.jpeg",
-      alt: "Tarefas",
-      color: "blue",
-    },
-  ]);
+  const [notes, setNotes] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchNotes = async () => {
+      try {
+        const data = await NotesAPI.getAllNotes();
+        if (data) {
+          setNotes(data);
+        } else {
+          console.error('No notes found');
+        }
+      } catch (error) {
+        console.error('Error fetching notes:', error);
+      }
+    };
+    fetchNotes();
+    console.log(notes);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -94,9 +75,7 @@ export default function Home() {
               key={note.id}
               id={note.id}
               title={note.title}
-              note={note.note}
-              image={note.image}
-              alt={note.alt}
+              content={note.content}
               color={note.color}
             />
           ))}
