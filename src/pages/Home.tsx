@@ -13,7 +13,6 @@ export default function Home() {
       const data = await NotesAPI.getAll();
       if (data) {
         setNotes(data);
-        console.log(data);
       }          
     } catch (error) {
       console.error('Error fetching notes:', error);
@@ -22,24 +21,29 @@ export default function Home() {
   
   useEffect(() => {
     fetchNotes();
-    const intervalId = setInterval(fetchNotes, 5000);
-    return () => clearInterval(intervalId);
+    // const intervalId = setInterval(fetchNotes, 5000);
+    // return () => clearInterval(intervalId);
   }, []);
 
   const handleLogout = () => {
     navigate("/");
   };
 
-  const handleAddNote = () => {
-    const newNote = {
-      id: notes.length + 1,
-      title: "Nova Nota",
-      note: "",
-      image: "",
-      alt: "",
-      color: "gray",
-    };
-    setNotes([...notes, newNote]);
+  const handleAddNote = async () => {
+    try {
+      const noteData = {
+        title: "New Note",
+        content: "",
+        color: "yellow",
+        authorId: 1,
+      };
+      const response = await NotesAPI.create(noteData);
+      if (response) {
+        fetchNotes();
+      }
+    } catch (error) {
+      console.error('Error creating note:', error);
+    }
   };
 
   const [theme, setTheme] = useState("light");
