@@ -5,26 +5,26 @@ import { useNavigate } from "react-router-dom";
 import NotesAPI from "../utils/NotesAPI";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [notes, setNotes] = useState<any[]>([]);
 
+  const fetchNotes = async () => {
+    try {
+      const data = await NotesAPI.getAll();
+      if (data) {
+        setNotes(data);
+        console.log(data);
+      }          
+    } catch (error) {
+      console.error('Error fetching notes:', error);
+    }
+  };
+  
   useEffect(() => {
-    const fetchNotes = async () => {
-      try {
-        const data = await NotesAPI.getAllNotes();
-        if (data) {
-          setNotes(data);
-        } else {
-          console.error('No notes found');
-        }
-      } catch (error) {
-        console.error('Error fetching notes:', error);
-      }
-    };
     fetchNotes();
-    console.log(notes);
+    const intervalId = setInterval(fetchNotes, 5000);
+    return () => clearInterval(intervalId);
   }, []);
-
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     navigate("/");
@@ -74,6 +74,7 @@ export default function Home() {
             <NoteCard
               key={note.id}
               id={note.id}
+              createdAt={note.createdAt}
               title={note.title}
               content={note.content}
               color={note.color}
