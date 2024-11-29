@@ -42,7 +42,7 @@ export default function NoteModal(props: NoteProps) {
     <>
       <input type="checkbox" id={`note-modal-${props.id}`} className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className={`modal-box ${color} relative size-[800px] scrollbar overflow-y-auto`}>
+        <div className={`modal-box ${color} relative size-[800px] overflow-y-hidden hover:overflow-y-auto`}>
           <div className="text-gray-800">
             <h1 className="card-title text-2xl">{props.title}</h1>
             <p className="text-xs flex-grow-0">
