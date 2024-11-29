@@ -37,7 +37,10 @@ const NotesAPI = {
     try {
       const response = await axios.get(BASE_URL);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return [];
+      }
       console.error('Error fetching all notes:', error);
       throw error;
     }
