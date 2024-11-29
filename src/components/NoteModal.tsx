@@ -1,4 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
+import { FaPencil, FaTrashCan } from "react-icons/fa6";
 
 interface NoteProps {
   id: number;
@@ -53,6 +54,12 @@ export default function NoteModal(props: NoteProps) {
                 minute: "numeric"
               }).format(new Date(props.createdAt))}
             </p>
+            <button className="btn btn-ghost btn-xs">
+              <FaPencil className="text-xs" />
+            </button>
+            <button className="btn btn-ghost btn-xs">
+              <FaTrashCan className="text-xs text-error" />
+            </button>
             <p className="py-4">{props.content.split('\n').map((line, index) => (
               <Fragment key={index}>
                 {line}
