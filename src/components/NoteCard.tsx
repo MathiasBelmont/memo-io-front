@@ -43,7 +43,7 @@ export default function NoteCard(props: NoteProps) {
       <label htmlFor={`note-modal-${props.id}`} className="">
         <div className={`card drop-shadow-lg cursor-pointer select-none`}>
           <div className="transition-opacity duration-300 hover:opacity-50">
-            <div className={`card-body size-[250px] ${color} select-none text-gray-800`}>
+            <div className={`card-body size-[280px] ${color} select-none text-gray-800`}>
               <div className="flex flex-col h-[220px] gap-2 overflow-hidden overflow-wrap">
                 <h2 className="card-title text-md">{props.title}</h2>
                 <p className="text-xs flex-grow-0">
