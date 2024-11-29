@@ -13,7 +13,7 @@ const NotesAPI = {
     }
   },
 
-  updateNote: async (id: number, noteData: any) => {
+  update: async (id: number, noteData: any) => {
     try {
       const response = await axios.put(`${BASE_URL}/${id}`, noteData);
       return response.data;
@@ -23,7 +23,7 @@ const NotesAPI = {
     }
   },
 
-  deleteNote: async (id: number) => {
+  delete: async (id: number) => {
     try {
       const response = await axios.delete(`${BASE_URL}/${id}`);
       return response.data;
@@ -33,10 +33,9 @@ const NotesAPI = {
     }
   },
 
-  getAllNotes: async () => {
+  getAll: async () => {
     try {
       const response = await axios.get(BASE_URL);
-      // console.log(response.data);
       return response.data;
     } catch (error) {
       console.error('Error fetching all notes:', error);
@@ -44,7 +43,7 @@ const NotesAPI = {
     }
   },
 
-  createNote: async (noteData: any) => {
+  create: async (noteData: any) => {
     try {
       const response = await axios.post(BASE_URL, noteData);
       return response.data;
@@ -54,7 +53,7 @@ const NotesAPI = {
     }
   },
 
-  getNotesByAuthor: async (id: number) => {
+  getByAuthor: async (id: number) => {
     try {
       const response = await axios.get(`${BASE_URL}/author/${id}`);
       return response.data;
@@ -66,4 +65,3 @@ const NotesAPI = {
 };
 
 export default NotesAPI;
-
