@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { FaPencil, FaTrashCan } from "react-icons/fa6";
+import NotesAPI from "../utils/NotesAPI";
 
 interface NoteProps {
   id: number;
@@ -38,6 +39,15 @@ export default function NoteModal(props: NoteProps) {
     }
   }, [props.color, color]);
 
+  const handleDelete = async () => {
+    try {
+      await NotesAPI.delete(props.id);
+      // Add any additional logic after successful deletion
+    } catch (error) {
+      console.error('Error deleting note:', error);
+    }
+  };
+
   return (
     <>
       <input type="checkbox" id={`note-modal-${props.id}`} className="modal-toggle" />
@@ -54,12 +64,17 @@ export default function NoteModal(props: NoteProps) {
                 minute: "numeric"
               }).format(new Date(props.createdAt))}
             </p>
+
+            {/* Botão de editar */}
             <button className="btn btn-ghost btn-xs">
               <FaPencil className="text-xs" />
             </button>
-            <button className="btn btn-ghost btn-xs">
+
+            {/* Botão de excluir */}
+            <button className="btn btn-ghost btn-xs" onClick={handleDelete}>
               <FaTrashCan className="text-xs text-error" />
             </button>
+
             <p className="py-4">{props.content.split('\n').map((line, index) => (
               <Fragment key={index}>
                 {line}
