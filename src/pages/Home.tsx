@@ -21,8 +21,8 @@ export default function Home() {
   
   useEffect(() => {
     fetchNotes();
-    // const intervalId = setInterval(fetchNotes, 5000);
-    // return () => clearInterval(intervalId);
+    const intervalId = setInterval(fetchNotes, 500);
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleLogout = () => {
