@@ -33,8 +33,11 @@ export default function Home() {
     try {
       const noteData = {
         title: "New Note",
-        content: "",
-        color: "yellow",
+        content: Array(500)
+          .fill(null)
+          .map(() => String.fromCharCode(Math.floor(Math.random() * 26) + 97))
+          .join(" "),
+        color: ["yellow", "red", "blue", "green"][Math.floor(Math.random() * 4)],
         authorId: 1,
       };
       const response = await NotesAPI.create(noteData);
