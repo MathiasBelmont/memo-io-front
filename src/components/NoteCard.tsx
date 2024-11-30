@@ -53,7 +53,7 @@ export default function NoteCard(props: NoteProps) {
                     year: "numeric",
                     hour: "numeric",
                     minute: "numeric"
-                  }).format(new Date(props.createdAt))}
+                  }).format(new Date(Date.parse(props.createdAt) - 3 * 60 * 60 * 1000))}
                 </p>
                 <p className="text-sm h-0 bg-gradient-to-b from-black to-transparent bg-clip-text text-transparent">
                   {props.content}

@@ -62,7 +62,7 @@ export default function NoteModal(props: NoteProps) {
                 year: "numeric",
                 hour: "numeric",
                 minute: "numeric"
-              }).format(new Date(props.createdAt))}
+              }).format(new Date(Date.parse(props.createdAt) - 3 * 60 * 60 * 1000))}
             </p>
 
             {/* Botão de editar */}
