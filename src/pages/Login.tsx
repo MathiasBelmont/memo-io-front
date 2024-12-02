@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaAt, FaKey, FaMoon, FaSun } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
+import UsersAPI from "../utils/UsersAPI";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -8,11 +9,26 @@ export default function Login() {
   const [theme, setTheme] = useState("light");
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // UseEffect para redirecionar para página principal caso o usuário esteja logado
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    if (user) {
+      navigate("/");
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (email && password) {
-      console.log("Email:", email, "Password:", password);
-      navigate("/home");
+      try {
+        const user = await UsersAPI.login(email, password);
+        console.log("Usuário logado com sucesso:", user);
+        localStorage.setItem("user", JSON.stringify(user));
+        navigate("/");
+      } catch (error) {
+        console.error("Erro ao fazer login:", error);
+        alert("Erro ao fazer login. Tente novamente.");
+      }
     } else {
       alert("Por favor, preencha todos os campos.");
     }
