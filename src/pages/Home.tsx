@@ -24,7 +24,7 @@ export default function Home() {
   // UseEffect para buscar atualizações das notas periodicamente
   useEffect(() => {
     fetchNotes();
-    const intervalId = setInterval(fetchNotes, 500);
+    const intervalId = setInterval(fetchNotes, 1000);
     return () => clearInterval(intervalId);
   }, []);
 
@@ -84,7 +84,7 @@ export default function Home() {
       {/* Notas */}
       <div className="flex justify-center items-center pt-16">
         <div className="grid grid-cols-3 gap-10 p-10">
-          {notes.map((note) => (
+          {notes.sort((a, b) => a.id - b.id).map((note) => (
             <NoteCard
               key={note.id}
               id={note.id}
