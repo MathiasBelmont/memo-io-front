@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import { FaPencil, FaTrashCan } from "react-icons/fa6";
+import { FaFloppyDisk, FaPencil, FaTrashCan, FaX, FaXmark } from "react-icons/fa6";
 import NotesAPI from "../utils/NotesAPI";
 
 interface NoteProps {
@@ -11,51 +11,106 @@ interface NoteProps {
 }
 
 export default function NoteModal(props: NoteProps) {
-  const [color, setColor] = useState(
-    props.color === "yellow"
-      ? `bg-yellow-100`
-      : props.color === "red"
-        ? `bg-red-100`
-        : props.color === "blue"
-          ? `bg-blue-100`
-          : props.color === "green"
-            ? `bg-green-100`
-            : `bg-gray-100`
-  );
+  const [title, setTitle] = useState(props.title);
+  const [content, setContent] = useState(props.content);
+  const [color, setColor] = useState(props.color);
+  const [isEditing, setIsEditing] = useState(false);
 
-  useEffect(() => {
-    const newColor =
-      props.color === "yellow"
-        ? `bg-yellow-100`
-        : props.color === "red"
-          ? `bg-red-100`
-          : props.color === "blue"
-            ? `bg-blue-100`
-            : props.color === "green"
-              ? `bg-green-100`
-              : `bg-gray-100`;
-    if (newColor !== color) {
-      setColor(newColor);
+  const handleEdit = async () => {
+    try {
+      await NotesAPI.update(props.id, { title, content, color });
+      setIsEditing(false);
+    } catch (error) {
+      console.error('Erro ao editar a nota:', error);
     }
-  }, [props.color, color]);
+  };
 
   const handleDelete = async () => {
     try {
       await NotesAPI.delete(props.id);
-      // Add any additional logic after successful deletion
     } catch (error) {
-      console.error('Error deleting note:', error);
+      console.error('Erro ao deletar a nota:', error);
     }
+  };
+
+  const handleDiscard = () => {
+    setTitle(props.title);
+    setContent(props.content);
+    setColor(props.color);
+    setIsEditing(false);
   };
 
   return (
     <>
-      <input type="checkbox" id={`note-modal-${props.id}`} className="modal-toggle" />
+      <input type="checkbox" id={`note-modal-${props.id}`} onClick={handleDiscard} className="modal-toggle" />
       <div className="modal" role="dialog">
         <div className={`modal-box ${color} relative size-[800px] overflow-y-hidden hover:overflow-y-auto`}>
           <div className="text-gray-800">
-            <h1 className="card-title text-2xl">{props.title}</h1>
-            <p className="text-xs flex-grow-0">
+
+            <div className="flex py-2">
+
+              <div className="flex-grow">
+
+                {isEditing ? (
+                  <>
+                    {/* Botão de salvar */}
+                    <button className="btn btn-ghost btn-xs text-xs text-success" onClick={handleEdit}>
+                      <FaFloppyDisk />
+                      Salvar
+                    </button>
+
+                    {/* Botão de descartar */}
+                    <button className="btn btn-ghost btn-xs text-xs text-error" onClick={handleDiscard}>
+                      <FaXmark />
+                      Descartar
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {/* Botão de editar */}
+                    <button className="btn btn-ghost btn-xs text-xs" onClick={() => setIsEditing(true)}>
+                      <FaPencil />
+                      Editar
+                    </button>
+
+                    {/* Botão de excluir */}
+                    <button className="btn btn-ghost btn-xs text-xs text-error" onClick={handleDelete}>
+                      <FaTrashCan />
+                      Excluir
+                    </button>
+                  </>
+                )}
+
+              </div>
+
+              {isEditing && (
+                <div className="flex gap-1">
+                  {["bg-yellow-100", "bg-red-100", "bg-blue-100", "bg-green-100"].map((colorButton) => (
+                    <button
+                      key={colorButton}
+                      className={`btn btn-circle btn-xs ${colorButton} border ${colorButton === color ? "border-accent" : "border-transparent"} ${colorButton === color ? "btn-active" : ""}`}
+                      onClick={() => setColor(colorButton)}
+                    />
+                  ))}
+                </div>
+              )}
+
+            </div>
+
+            {/* Título da nota */}
+            {isEditing ? (
+              <input
+                type="text"
+                className="card-title text-2xl input w-full"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            ) : (
+              <h1 className="card-title text-2xl">{props.title}</h1>
+            )}
+
+            {/* Data da nota */}
+            <p className="text-xs flex-grow-0 pb-2">
               {new Intl.DateTimeFormat("pt-BR", {
                 day: "numeric",
                 month: "long",
@@ -65,22 +120,22 @@ export default function NoteModal(props: NoteProps) {
               }).format(new Date(Date.parse(props.createdAt) - 3 * 60 * 60 * 1000))}
             </p>
 
-            {/* Botão de editar */}
-            <button className="btn btn-ghost btn-xs">
-              <FaPencil className="text-xs" />
-            </button>
+            {/* Conteúdo da nota */}
+            {isEditing ? (
+              <textarea
+                className="textarea w-full h-[630px] resize-none"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
+            ) : (
+              <p>{props.content.split('\n').map((line, index) => (
+                <Fragment key={index}>
+                  {line}
+                  <br />
+                </Fragment>
+              ))}</p>
+            )}
 
-            {/* Botão de excluir */}
-            <button className="btn btn-ghost btn-xs" onClick={handleDelete}>
-              <FaTrashCan className="text-xs text-error" />
-            </button>
-
-            <p className="py-4">{props.content.split('\n').map((line, index) => (
-              <Fragment key={index}>
-                {line}
-                <br />
-              </Fragment>
-            ))}</p>
           </div>
         </div>
         <label className="modal-backdrop" htmlFor={`note-modal-${props.id}`} />
