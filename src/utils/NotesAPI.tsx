@@ -27,7 +27,10 @@ const NotesAPI = {
     try {
       const response = await axios.get(`${BASE_URL}/author/${id}`);
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response?.status === 404) {
+        return [];
+      }
       console.error('Error fetching notes by author:', error);
       throw error;
     }
