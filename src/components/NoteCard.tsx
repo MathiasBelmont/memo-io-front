@@ -1,36 +1,45 @@
-import NoteModal from "./NoteModal";
+import { useEffect, useState } from "react";
 
 interface NoteProps {
   id: number;
+  createdAt: string;
   title: string;
-  note: string;
-  image?: string;
-  alt: string;
+  content: string;
   color: string;
 }
 
-export default function NoteCard({ id, title, note, image, alt, color }: NoteProps) {
+export default function NoteCard(props: NoteProps) {
+  const [color, setColor] = useState(props.color);
+
+  useEffect(() => {
+    setColor(props.color)
+  }, [props.color]);
 
   return (
     <>
-      <label htmlFor={`note-modal-${id}`} className="size-min">
-        <div className="card size-80 drop-shadow-lg cursor-pointer select-none overflow-hidden">
-          <div className="transition-opacity duration-300 hover:opacity-75 size-full">
-            <div className="card-body select-none h-3/5 bg-yellow-100 text-gray-800">
-              <h2 className="card-title text-md">{title}</h2>
-              <p className="text-sm bg-gradient-to-b from-black to-transparent bg-clip-text text-transparent overflow-hidden">
-                {note}
-              </p>
+      <label htmlFor={`note-modal-${props.id}`} className="">
+        <div className={`card drop-shadow-lg cursor-pointer select-none`}>
+          <div className="transition-opacity duration-300 hover:opacity-50">
+            <div className={`card-body size-[280px] ${color} select-none text-gray-800`}>
+              <div className="flex flex-col h-[220px] gap-2 overflow-hidden break-all overflow-wrap">
+                <h2 className="card-title text-md">{props.title}</h2>
+                <p className="text-xs flex-grow-0">
+                  {new Intl.DateTimeFormat("pt-BR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    hour: "numeric",
+                    minute: "numeric"
+                  }).format(new Date(Date.parse(props.createdAt) - 3 * 60 * 60 * 1000))}
+                </p>
+                <p className="text-sm h-0 bg-gradient-to-b from-black to-transparent bg-clip-text text-transparent">
+                  {props.content}
+                </p>
+              </div>
             </div>
-            {image && (
-              <figure className="overflow-hidden h-2/5">
-                <img src={image} alt={alt} />
-              </figure>
-            )}
           </div>
         </div>
       </label>
-      <NoteModal id={id} title={title} note={note} image={image} alt={alt} color={color} />
     </>
   );
 }
