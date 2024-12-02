@@ -83,15 +83,18 @@ export default function Home() {
 
             {/* Alternador de tema */}
             <div className="navbar-start">
-              <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
+              <button onClick={toggleTheme} className="btn btn-ghost btn-circle" >
                 {theme === "light" ? <FaMoon /> : <FaSun />}
               </button>
             </div>
 
             {/* Logo */}
-            <div className="navbar-center">
-              <a className="text-xl font-semibold">memo.io</a>
-            </div>
+            <button className="btn btn-ghost text-xl" onClick={() => {
+              const modal = document.getElementById('modal_info') as HTMLDialogElement;
+              if (modal) {
+                modal.showModal();
+              }
+            }}>memo.io</button>
 
             {/* Perfil */}
             <div className="navbar-end">
@@ -112,7 +115,7 @@ export default function Home() {
                 </ul>
               </details>
             </div>
-            
+
           </div>
 
           {/* Notas */}
@@ -148,6 +151,17 @@ export default function Home() {
           >
             <FaPencil />
           </button>
+
+          <dialog id="modal_info" className="modal">
+            <div className="modal-box flex flex-col justify-center items-center text-center">
+              <h3 className="font-semibold text-2xl">memo.io</h3>
+              <p className="text-sm">v0.0.1</p>
+              <p className="text-sm py-4">Fortran Crusaders, 2024</p>
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
         </>
       )}
 
