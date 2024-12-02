@@ -30,6 +30,7 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
     try {
       await NotesAPI.delete(props.id);
       props.onUpdate(true);
+      document.getElementById(`note-modal-${props.id}`)?.click();
     } catch (error) {
       console.error('Erro ao deletar a nota:', error);
     }
@@ -49,7 +50,7 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
         <div className={`modal-box ${color} relative size-[800px]`}>
           <div className="text-gray-800">
 
-            <div className="flex py-2">
+            <div className="flex pb-2">
 
               <div className="flex-grow">
 
@@ -89,9 +90,9 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
               {isEditing && (
                 <div className="flex gap-1">
                   {["bg-yellow-100", "bg-red-100", "bg-blue-100", "bg-green-100"].map((colorButton) => (
-                    <button
+                    <div
                       key={colorButton}
-                      className={`btn btn-circle btn-xs ${colorButton} border ${colorButton === color ? "border-accent" : "border-transparent"} ${colorButton === color ? "btn-active" : ""}`}
+                      className={`size-6 rounded-full ${colorButton} border ${colorButton === color ? "border-accent" : "border-grey"} ${colorButton === color ? "" : "opacity-75 hover:opacity-100"}`}
                       onClick={() => setColor(colorButton)}
                     />
                   ))}
@@ -104,16 +105,17 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
             {isEditing ? (
               <input
                 type="text"
-                className="card-title p-0 text-2xl input input-sm w-full bg-white bg-opacity-50"
+                className={`card-title p-0 text-2xl input input-sm h-[35px] w-full bg-white bg-opacity-50`}
                 value={title}
+                maxLength={35}
                 onChange={(e) => setTitle(e.target.value)}
               />
             ) : (
-              <h1 className="card-title text-2xl">{props.title}</h1>
+              <h1 className="card-title text-2xl break-all whitespace-pre-wrap">{props.title}</h1>
             )}
 
             {/* Data da nota */}
-            <p className="text-xs flex-grow-0 pb-2">
+            <p className="text-xs flex-grow-0 py-2">
               {new Intl.DateTimeFormat("pt-BR", {
                 day: "numeric",
                 month: "long",
@@ -126,17 +128,25 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
             {/* Conteúdo da nota */}
             {isEditing ? (
               <textarea
-                className="textarea p-0 text-[16px] leading-6 w-full h-[630px] resize-none bg-white bg-opacity-50"
+                className={`textarea p-0 text-[16px] leading-6 w-full h-[625px] resize-none bg-white bg-opacity-50`}
+                maxLength={5000}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             ) : (
-              <div className="overflow-y-auto h-[630px] py-1">{props.content.split('\n').map((line, index) => (
+              <div className="overflow-y-auto break-all h-[625px]">{props.content.split('\n').map((line, index) => (
                 <Fragment key={index}>
                   {line}
                   <br />
                 </Fragment>
               ))}</div>
+            )}
+
+            {/* Quantidade de caracteres */}
+            {isEditing && (
+              <p className={`text-xs flex-grow-0 pt-2 text-right ${content.length === 5000 ? "text-error" : ""}`}>
+                {content.length} / 5000
+              </p>
             )}
 
           </div>
