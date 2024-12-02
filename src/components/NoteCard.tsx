@@ -10,33 +10,11 @@ interface NoteProps {
 }
 
 export default function NoteCard(props: NoteProps) {
-  const [color, setColor] = useState(
-    props.color === "yellow"
-      ? `bg-yellow-100`
-      : props.color === "red"
-        ? `bg-red-100`
-        : props.color === "blue"
-          ? `bg-blue-100`
-          : props.color === "green"
-            ? `bg-green-100`
-            : `bg-gray-100`
-  );
+  const [color, setColor] = useState(props.color);
 
   useEffect(() => {
-    const newColor =
-      props.color === "yellow"
-        ? `bg-yellow-100`
-        : props.color === "red"
-          ? `bg-red-100`
-          : props.color === "blue"
-            ? `bg-blue-100`
-            : props.color === "green"
-              ? `bg-green-100`
-              : `bg-gray-100`;
-    if (newColor !== color) {
-      setColor(newColor);
-    }
-  }, [props.color, color]);
+    setColor(props.color)
+  }, [props.color]);
 
   return (
     <>
