@@ -10,6 +10,14 @@ export default function SignUp() {
   const [theme, setTheme] = useState("light");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const local_theme = localStorage.getItem("theme") || "light";
+    if (local_theme === "dark") {
+      document.documentElement.classList.add("dark");
+      setTheme("dark");
+    }
+  }, []);
+
   // UseEffect para redirecionar para página principal caso o usuário esteja logado
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -37,6 +45,7 @@ export default function SignUp() {
   };
 
   const toggleTheme = () => {
+    localStorage.setItem("theme", theme === "dark" ? "light" : "dark");
     setTheme(theme === "dark" ? "light" : "dark");
   };
 

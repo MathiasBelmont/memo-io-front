@@ -10,6 +10,14 @@ export default function Home() {
   const [notes, setNotes] = useState<any[]>([]);
   const [theme, setTheme] = useState("light");
 
+  useEffect(() => {
+    const local_theme = localStorage.getItem("theme") || "light";
+    if (local_theme === "dark") {
+      document.documentElement.classList.add("dark");
+      setTheme("dark");
+    }
+  })
+
   // UseEffect para redirecionar para página de login caso o usuário não esteja logado
   useEffect(() => {
     const user = localStorage.getItem("user");
@@ -65,6 +73,7 @@ export default function Home() {
 
   // Função para alternar o tema
   const toggleTheme = () => {
+    localStorage.setItem("theme", theme === "dark" ? "light" : "dark");
     setTheme(theme === "dark" ? "light" : "dark");
   };
 
@@ -99,7 +108,7 @@ export default function Home() {
             {/* Perfil */}
             <div className="navbar-end">
               <details className="dropdown dropdown-end">
-                <summary tabIndex={0} role="button" className="btn btn-primary text-white rounded-full">
+                <summary tabIndex={0} role="button" className="btn btn-primary text-white rounded-full size-12">
                   <span className="text-2xl">{JSON.parse(localStorage.getItem('user') || '{}').name[0]}</span>
                 </summary>
                 <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-60 p-2 m-1 shadow">
