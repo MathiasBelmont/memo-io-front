@@ -44,7 +44,7 @@ export default function NoteModal(props: NoteProps) {
     <>
       <input type="checkbox" id={`note-modal-${props.id}`} onClick={handleDiscard} className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className={`modal-box ${color} relative size-[800px] overflow-y-hidden hover:overflow-y-auto`}>
+        <div className={`modal-box ${color} relative size-[800px]`}>
           <div className="text-gray-800">
 
             <div className="flex py-2">
@@ -83,6 +83,7 @@ export default function NoteModal(props: NoteProps) {
 
               </div>
 
+              {/* Opções de cores */}
               {isEditing && (
                 <div className="flex gap-1">
                   {["bg-yellow-100", "bg-red-100", "bg-blue-100", "bg-green-100"].map((colorButton) => (
@@ -101,7 +102,7 @@ export default function NoteModal(props: NoteProps) {
             {isEditing ? (
               <input
                 type="text"
-                className="card-title text-2xl input w-full"
+                className="card-title p-0 text-2xl input input-sm w-full bg-white bg-opacity-50"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -123,17 +124,17 @@ export default function NoteModal(props: NoteProps) {
             {/* Conteúdo da nota */}
             {isEditing ? (
               <textarea
-                className="textarea w-full h-[630px] resize-none"
+                className="textarea p-0 text-[16px] leading-6 w-full h-[630px] resize-none bg-white bg-opacity-50"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             ) : (
-              <p>{props.content.split('\n').map((line, index) => (
+              <div className="overflow-y-auto h-[630px] py-1">{props.content.split('\n').map((line, index) => (
                 <Fragment key={index}>
                   {line}
                   <br />
                 </Fragment>
-              ))}</p>
+              ))}</div>
             )}
 
           </div>
