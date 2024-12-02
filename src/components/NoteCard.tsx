@@ -41,7 +41,6 @@ export default function NoteCard(props: NoteProps) {
           </div>
         </div>
       </label>
-      <NoteModal id={props.id} createdAt={props.createdAt} title={props.title} content={props.content} color={props.color} />
     </>
   );
 }

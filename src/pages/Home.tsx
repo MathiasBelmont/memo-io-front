@@ -3,6 +3,7 @@ import NoteCard from "../components/NoteCard";
 import { FaMoon, FaPencil, FaSun } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import NotesAPI from "../utils/NotesAPI";
+import NoteModal from "../components/NoteModal";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -85,14 +86,23 @@ export default function Home() {
       <div className="flex justify-center items-center pt-16">
         <div className="grid grid-cols-3 gap-10 p-10">
           {notes.sort((a, b) => a.id - b.id).map((note) => (
-            <NoteCard
-              key={note.id}
-              id={note.id}
-              createdAt={note.createdAt}
-              title={note.title}
-              content={note.content}
-              color={note.color}
-            />
+            <>
+              <NoteCard
+                key={note.id}
+                id={note.id}
+                createdAt={note.createdAt}
+                title={note.title}
+                content={note.content}
+                color={note.color}
+              />
+              <NoteModal
+                id={note.id}
+                createdAt={note.createdAt}
+                title={note.title}
+                content={note.content}
+                color={note.color}
+              />
+            </>
           ))}
         </div>
       </div>
