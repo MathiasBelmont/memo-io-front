@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import NoteModal from "./NoteModal";
 
 interface NoteProps {
   id: number;
@@ -22,7 +21,7 @@ export default function NoteCard(props: NoteProps) {
         <div className={`card drop-shadow-lg cursor-pointer select-none`}>
           <div className="transition-opacity duration-300 hover:opacity-50">
             <div className={`card-body size-[280px] ${color} select-none text-gray-800`}>
-              <div className="flex flex-col h-[220px] gap-2 overflow-hidden overflow-wrap">
+              <div className="flex flex-col h-[220px] gap-2 overflow-hidden break-all overflow-wrap">
                 <h2 className="card-title text-md">{props.title}</h2>
                 <p className="text-xs flex-grow-0">
                   {new Intl.DateTimeFormat("pt-BR", {
