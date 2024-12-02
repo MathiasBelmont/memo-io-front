@@ -3,6 +3,16 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:8080/memo-io-back/users';
 
 const UsersAPI = {
+  createUser: async (userData: any) => {
+    try {
+      const response = await axios.post(BASE_URL, userData);
+      return response.data;
+    } catch (error) {
+      console.error('Error creating user:', error);
+      throw error;
+    }
+  },
+  
   getUser: async (id: number) => {
     try {
       const response = await axios.get(`${BASE_URL}/${id}`);
@@ -43,15 +53,16 @@ const UsersAPI = {
     }
   },
 
-  createUser: async (userData: any) => {
+  // login
+  login: async (email: string, password: string) => {
     try {
-      const response = await axios.post(BASE_URL, userData);
+      const response = await axios.post(`${BASE_URL}/login`, { email, password });
       return response.data;
     } catch (error) {
-      console.error('Error creating user:', error);
+      console.error('Error logging in:', error);
       throw error;
     }
-  },
+  }
 };
 
 export default UsersAPI;
