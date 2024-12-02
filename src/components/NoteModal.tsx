@@ -10,7 +10,7 @@ interface NoteProps {
   color: string;
 }
 
-export default function NoteModal(props: NoteProps) {
+export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: boolean) => void }) {
   const [title, setTitle] = useState(props.title);
   const [content, setContent] = useState(props.content);
   const [color, setColor] = useState(props.color);
@@ -19,6 +19,7 @@ export default function NoteModal(props: NoteProps) {
   const handleEdit = async () => {
     try {
       await NotesAPI.update(props.id, { title, content, color });
+      props.onUpdate(true);
       setIsEditing(false);
     } catch (error) {
       console.error('Erro ao editar a nota:', error);
@@ -28,6 +29,7 @@ export default function NoteModal(props: NoteProps) {
   const handleDelete = async () => {
     try {
       await NotesAPI.delete(props.id);
+      props.onUpdate(true);
     } catch (error) {
       console.error('Erro ao deletar a nota:', error);
     }

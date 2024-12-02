@@ -22,11 +22,9 @@ export default function Home() {
     }
   };
 
-  // UseEffect para buscar atualizações das notas periodicamente
+  // UseEffect para buscar as notas
   useEffect(() => {
     fetchNotes();
-    const intervalId = setInterval(fetchNotes, 1000);
-    return () => clearInterval(intervalId);
   }, []);
 
   // Função para sair da conta
@@ -101,6 +99,7 @@ export default function Home() {
                 title={note.title}
                 content={note.content}
                 color={note.color}
+                onUpdate={fetchNotes}
               />
             </>
           ))}
