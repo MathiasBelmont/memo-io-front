@@ -47,7 +47,7 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
     <>
       <input type="checkbox" id={`note-modal-${props.id}`} onClick={handleDiscard} className="modal-toggle" />
       <div className="modal" role="dialog">
-        <div className={`modal-box ${color} relative size-[800px]`}>
+        <div className={`modal-box ${color} relative size-[600px]`}>
           <div className="text-gray-800">
 
             <div className="flex pb-2">
@@ -128,13 +128,13 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
             {/* Conteúdo da nota */}
             {isEditing ? (
               <textarea
-                className={`textarea p-0 text-[16px] leading-6 w-full h-[625px] resize-none bg-white bg-opacity-50`}
+                className={`textarea p-0 text-[16px] leading-6 w-full h-[425px] resize-none bg-white bg-opacity-50`}
                 maxLength={5000}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             ) : (
-              <div className="overflow-y-auto break-all h-[625px]">{props.content.split('\n').map((line, index) => (
+              <div className="overflow-y-auto break-all h-[425px]">{props.content.split('\n').map((line, index) => (
                 <Fragment key={index}>
                   {line}
                   <br />
