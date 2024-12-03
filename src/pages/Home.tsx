@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import NoteCard from "../components/NoteCard";
 import { FaArrowRightFromBracket, FaMoon, FaPencil, FaSun } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
@@ -131,9 +131,8 @@ export default function Home() {
           <div className="flex justify-center items-center pt-16">
             <div className="grid grid-cols-3 gap-10 p-10">
               {notes.sort((a, b) => a.id - b.id).map((note) => (
-                <>
+                <Fragment key={note.id}>
                   <NoteCard
-                    key={note.id}
                     id={note.id}
                     createdAt={note.createdAt}
                     title={note.title}
@@ -148,7 +147,7 @@ export default function Home() {
                     color={note.color}
                     onUpdate={fetchNotes}
                   />
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
@@ -162,9 +161,9 @@ export default function Home() {
           </button>
 
           <dialog id="modal_info" className="modal">
-            <div className="modal-box flex flex-col justify-center items-center text-center">
+            <div className="modal-box flex flex-col justify-center items-center text-center w-[250px]">
               <h3 className="font-semibold text-2xl">memo.io</h3>
-              <p className="text-sm">v0.0.1</p>
+              <p className="text-sm">v0.1.0</p>
               <p className="text-sm py-4">Fortran Crusaders, 2024</p>
             </div>
             <form method="dialog" className="modal-backdrop">
