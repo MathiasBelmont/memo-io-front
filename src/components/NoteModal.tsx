@@ -1,6 +1,9 @@
 import { useState, useEffect, Fragment } from "react";
 import { FaFloppyDisk, FaPencil, FaTrashCan, FaX, FaXmark } from "react-icons/fa6";
 import NotesAPI from "../utils/NotesAPI";
+import Markdown from "react-markdown";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface NoteProps {
   id: number;
@@ -105,17 +108,17 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
             {isEditing ? (
               <input
                 type="text"
-                className={`card-title p-0 text-2xl input input-sm h-[35px] w-full bg-white bg-opacity-50`}
+                className={`card-title p-0 border-0 text-2xl input input-sm h-[35px] w-full bg-white bg-opacity-50`}
                 value={title}
                 maxLength={35}
                 onChange={(e) => setTitle(e.target.value)}
               />
             ) : (
-              <h1 className="card-title text-2xl break-all whitespace-pre-wrap">{props.title}</h1>
+              <h1 className="card-title pb-1 text-2xl break-all whitespace-pre-wrap">{props.title}</h1>
             )}
 
             {/* Data da nota */}
-            <p className="text-xs flex-grow-0 py-2">
+            <p className="text-xs flex-grow-0">
               {new Intl.DateTimeFormat("pt-BR", {
                 day: "numeric",
                 month: "long",
@@ -128,18 +131,15 @@ export default function NoteModal(props: NoteProps & { onUpdate: (shouldFetch: b
             {/* Conteúdo da nota */}
             {isEditing ? (
               <textarea
-                className={`textarea p-0 text-[16px] leading-6 w-full h-[425px] resize-none bg-white bg-opacity-50`}
+                className={`textarea p-0 border-0 border-t-[16px] text-[16px] leading-6 w-full h-[425px] resize-none bg-white bg-opacity-50`}
                 maxLength={5000}
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
               />
             ) : (
-              <div className="overflow-y-auto break-all h-[425px]">{props.content.split('\n').map((line, index) => (
-                <Fragment key={index}>
-                  {line}
-                  <br />
-                </Fragment>
-              ))}</div>
+              <div className="overflow-y-auto break-all h-[425px]">
+                <ReactMarkdown children={props.content} remarkPlugins ={[remarkGfm]} className="markdown" />
+              </div>
             )}
 
             {/* Quantidade de caracteres */}
